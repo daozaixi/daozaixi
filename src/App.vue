@@ -1,8 +1,8 @@
 <script setup>
-</script>
 
+</script>
 <template>
-    <el-button type="warning">Warning</el-button>
+    <el-button type="success">base</el-button>
 </template>
 
 <style scoped></style>
