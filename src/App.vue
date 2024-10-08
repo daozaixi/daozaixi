@@ -1,7 +1,8 @@
 <script setup>
-import { creatived } from "vue"
 </script>
 
-<template></template>
+<template>
+    <el-button type="warning">Warning</el-button>
+</template>
 
 <style scoped></style>
