@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div>分类</div>
+    <div>category</div>
 </template>
 
 <style scoped></style>
