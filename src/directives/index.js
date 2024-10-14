@@ -7,7 +7,7 @@ export const lazyPlugin = {
             mounted(el, binding) {
                 //el :指令绑定的元素
                 //binding :binding.value 指令等于号后面绑定的表达式的值 也就是我们需要的url
-                console.log(el, binding.value)
+                // console.log(el, binding.value)
                 const { stop } = useIntersectionObserver( //解构赋值
                     el,
                     ([{ isIntersecting }]) => {
