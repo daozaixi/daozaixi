@@ -1,43 +1,14 @@
 <script setup>
-import { getCategoryAPI } from "@/apis/category"
-import { getBannerAPI } from "@/apis/home" //轮播图
-import { useRoute } from "vue-router"
-import { ref, onMounted, watch } from "vue"
 import GoodsItem from "../Home/components/GoodsItem.vue"
-import { onBeforeRouteUpdate } from "vue-router"
+import { useBanner } from "./composables/useBanner"
+import { useCategory } from "./composables/useCategory"
+
 
 //面包屑导航
-const categoryData = ref({})
-const route = useRoute()
-const getCategory = async (id) => {
-    const res = await getCategoryAPI(route.params.id)
-    categoryData.value = res.result
-}
-onMounted(() => getCategory())
-
-// 路由变化时，分类数据接口重新发送
-watch(() => route.params.id, () => {
-    // console.log("路由id开始变化" + route.params.id)
-    getCategory()
-})
-// onBeforeRouteUpdate((to) => {
-//     console.log("路由变化")
-//     getCategory()
-// })
+const { categoryData } = useCategory()
 
 // 轮播图设计 获取banner
-const bannerList = ref([])
-
-const getBanner = async () => {
-    const res = await getBannerAPI({
-        distributionSite: "2"
-    })
-    // console.log("Banner API response:", res)
-    // console.log(res)
-    bannerList.value = res.result
-}
-onMounted(() => getBanner())
-
+const { bannerList } = useBanner() //解构赋值
 </script>
 
 <template>
@@ -64,7 +35,7 @@ onMounted(() => getBanner())
                 <h3>全部分类</h3>
                 <ul>
                     <li v-for="i in categoryData.children" :key="i.id">
-                        <RouterLink to="/">
+                        <RouterLink :to="`/category/sub/${i.id}`">
                             <img :src="i.picture" />
                             <p>{{ i.name }}</p>
                         </RouterLink>
