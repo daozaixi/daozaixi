@@ -16,6 +16,8 @@ onMounted(() => categoryStore.getCategory())
 <template>
     <LayoutNav />
     <LayoutHeader />
+    <!-- 添加key 摧毁复用实例 强制更新  问题是性能开销太大-->
+    <!-- <RouterView :key="$route.fullPath" /> -->
     <RouterView />
     <LayoutFooter />
     <LayoutFixed />

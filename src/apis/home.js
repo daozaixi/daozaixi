@@ -1,8 +1,14 @@
 // 获取首页轮播图数据
 import httpInstance from '@/utils/http'
-export const getBannerAPI = () => {
+export function getBannerAPI(params = {}) {
+    // 首页轮播图为1 一级分类商品轮播图为2
+    const { distributionSite = '1' } = params
+    // console.log('getBannerAPI params:', params); // 添加这行来检查参数
     return httpInstance({
-        url: 'home/banner'
+        url: '/home/banner',
+        params: {
+            distributionSite
+        }
     })
 }
 

@@ -12,7 +12,7 @@ import GoodsItem from "./GoodsItem.vue"
 const goodsProduct = ref([])
 const getGoods = async () => {
     const res = await getGoodsAPI()
-    console.log(res)
+    // console.log(res)
     goodsProduct.value = res.result
 }
 onMounted(() => { getGoods() })

@@ -1,9 +1,10 @@
 <script setup>
 import { getCategoryAPI } from "@/apis/category"
-import { getBannerAPI } from "@/apis/category" //轮播图
+import { getBannerAPI } from "@/apis/home" //轮播图
 import { useRoute } from "vue-router"
-import { ref, onMounted } from "vue"
+import { ref, onMounted, watch } from "vue"
 import GoodsItem from "../Home/components/GoodsItem.vue"
+import { onBeforeRouteUpdate } from "vue-router"
 
 //面包屑导航
 const categoryData = ref({})
@@ -14,6 +15,16 @@ const getCategory = async (id) => {
 }
 onMounted(() => getCategory())
 
+// 路由变化时，分类数据接口重新发送
+watch(() => route.params.id, () => {
+    // console.log("路由id开始变化" + route.params.id)
+    getCategory()
+})
+// onBeforeRouteUpdate((to) => {
+//     console.log("路由变化")
+//     getCategory()
+// })
+
 // 轮播图设计 获取banner
 const bannerList = ref([])
 
@@ -21,7 +32,7 @@ const getBanner = async () => {
     const res = await getBannerAPI({
         distributionSite: "2"
     })
-    console.log("Banner API response:", res)
+    // console.log("Banner API response:", res)
     // console.log(res)
     bannerList.value = res.result
 }
