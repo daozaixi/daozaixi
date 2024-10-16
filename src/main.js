@@ -8,12 +8,14 @@ import { createPinia } from 'pinia'
 import "@/styles/common.scss"
 // 引入懒加载插件
 import { lazyPlugin } from "@/directives/index.js"
-
+// 引入全局组件插件
+import { componentPlugin } from '@/components/index.js'
 
 const app = createApp(App)
 app.use(router)
 app.use(createPinia())
 app.use(lazyPlugin)
+app.use(componentPlugin)
 app.mount('#app')
 
 
