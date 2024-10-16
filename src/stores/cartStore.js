@@ -51,15 +51,26 @@ export const useCartStore = defineStore('cart', () => {
             item.selected = selected
         })
     }
+    // 购物车共选择数量
+    const selectedCount = computed(() => {
+        return cartList.value.filter((item) => item.selected).reduce((a, c) => a + c.count, 0)
+    })
+    // 购物车共选择总价
+    const selectedPrice = computed(() => {
+        return cartList.value.filter((item) => item.selected).reduce((a, c) => a + c.count * c.price, 0)
+    })
     return {
         cartList,
         isAll,
         allCount,
         allPrice,
+        selectedCount,
+        selectedPrice,
         addCart,
         delCart,
         singleCheck,
-        allCheck
+        allCheck,
+
     }
 }, {
     persist: true,
