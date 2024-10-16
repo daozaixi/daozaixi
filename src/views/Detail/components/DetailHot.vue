@@ -3,15 +3,32 @@
 import { ref, onMounted } from 'vue'
 import { getHotGoodsAPI } from '@/apis/detail'
 import { useRoute } from 'vue-router'
+import { computed } from 'vue';
+
+// 设计prpos参数 适配不同的title和数据
+const props = defineProps({
+    hotType: {
+        type: Number, // 1代表24小时热销榜 2代表周热销榜 可以使用type去适配title和数据列表
+    }
+})
+
+// 适配title 1 2 
+const TYPEMAP = {
+    1: '24小时热销榜',
+    2: '周热销榜',
+}
+
+const title = computed(() => TYPEMAP[props.hotType])
 
 const goodList = ref([])
 const route = useRoute()
 const getHotList = async () => {
     const res = await getHotGoodsAPI({
         id: route.params.id,
-        type: 1
+        type: props.hotType,
     })
     goodList.value = res.result
+    console.log(res.result)
 }
 onMounted(() => getHotList())
 </script>
@@ -19,9 +36,9 @@ onMounted(() => getHotList())
 
 <template>
     <div class="goods-hot">
-        <h3>周日榜单</h3>
+        <h3>{{ title }}</h3>
         <!-- 商品区块 -->
-        <RouterLink to="`/detail/${item.id}`" class="goods-item" v-for="item in goodList" :key="item.id">
+        <RouterLink to="/" class="goods-item" v-for="item in goodList" :key="item.id">
             <img :src="item.picture" alt="" />
             <p class="name ellipsis">{{ item.name }}</p>
             <p class="desc ellipsis">{{ item.desc }}</p>
