@@ -37,12 +37,29 @@ export const useCartStore = defineStore('cart', () => {
         return cartList.value.reduce((a, c) => a + c.count * c.price, 0)
     })
 
+    // 单选功能
+    const singleCheck = (skuId, selected) => {
+        // 通过skuId找到要修改的那一项 然后把它的selected修改为传过来的selected
+        const item = cartList.value.find((item) => item.skuId === skuId)
+        item.selected = selected
+    }
+    // 下选上全选功能
+    const isAll = computed(() => cartList.value.every((item) => item.selected))
+    // 上选下全选功能
+    const allCheck = (selected) => {
+        cartList.value.forEach((item) => {
+            item.selected = selected
+        })
+    }
     return {
         cartList,
+        isAll,
+        allCount,
+        allPrice,
         addCart,
         delCart,
-        allCount,
-        allPrice
+        singleCheck,
+        allCheck
     }
 }, {
     persist: true,

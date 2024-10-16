@@ -1,8 +1,14 @@
 <script setup>
-import { ref } from 'vue'
-import { useCartStore } from '@/stores/cartStore'
+import { useCartStore } from "@/stores/cartStore"
 const cartStore = useCartStore()
-const cartList = []
+const singleCheck = (i, selected) => {
+  console.log(i, selected)
+  cartStore.singleCheck(i.skuId, selected)
+}
+const allCheck = (selected) => {
+  console.log(selected)
+  cartStore.allCheck(selected)
+}
 </script>
 
 <template>
@@ -13,7 +19,7 @@ const cartList = []
           <thead>
             <tr>
               <th width="120">
-                <el-checkbox />
+                <el-checkbox :model-value="cartStore.isAll" @change="allCheck" />
               </th>
               <th width="400">商品信息</th>
               <th width="220">单价</th>
@@ -26,7 +32,7 @@ const cartList = []
           <tbody>
             <tr v-for="i in cartStore.cartList" :key="i.id">
               <td>
-                <el-checkbox />
+                <el-checkbox :model-value="i.selected" @change="(selected) => singleCheck(i, selected)" />
               </td>
               <td>
                 <div class="goods">
