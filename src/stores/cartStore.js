@@ -1,7 +1,8 @@
 // 封装购物车
 
+import { all } from 'axios'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 
 export const useCartStore = defineStore('cart', () => {
@@ -23,9 +24,25 @@ export const useCartStore = defineStore('cart', () => {
             cartList.value.push(goods)
         }
     }
+    // 删除购物车
+    const delCart = async (skuId) => {
+        const idx = cartList.value.findIndex((item) => skuId === item.skuId)
+        cartList.value.splice(idx, 1)
+    }
+    // 计算属性总数和总价
+    const allCount = computed(() => {
+        return cartList.value.reduce((a, c) => a + c.count, 0)
+    })
+    const allPrice = computed(() => {
+        return cartList.value.reduce((a, c) => a + c.count * c.price, 0)
+    })
+
     return {
         cartList,
-        addCart
+        addCart,
+        delCart,
+        allCount,
+        allPrice
     }
 }, {
     persist: true,
